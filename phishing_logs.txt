@@ -1,0 +1,4 @@
+ 2026-01-23 12:33:12 | User: hello | password: world | phishing detected
+ 2026-01-23 12:35:41 | User: aa | password: aa | phishing detected
+ 2026-01-23 12:40:59 | User: aa | password: aa | phishing detected
+ 2026-01-23 12:48:53 | User: 12 | password: admin | HIGH RISK 
