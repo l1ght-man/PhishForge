@@ -3,7 +3,7 @@
 PhishForge is a small self‑hosted phishing simulation lab.  
 It lets you send test phishing emails, capture credentials on a fake login page, and view results in a simple dashboard – all locally using Docker and MailHog.[web:341][web:347]
 
-> Warning: Use PhishForge **only** on systems and mailboxes you own or have explicit permission to test. Misuse can be illegal and unethical.[web:259][web:262]
+> Warning: Use PhishForge **only** on systems and mailboxes you own or have explicit permission to test. Misuse can be illegal and unethical.
 
 ---
 
@@ -21,7 +21,7 @@ It lets you send test phishing emails, capture credentials on a fake login page,
 - Python 3  
 - Flask  
 - Docker & Docker Compose  
-- MailHog (fake SMTP server + web UI)[web:233][web:238]
+- MailHog (fake SMTP server + web UI)
 
 ---
 
