@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><title>Phishing Detection Results</title>
+<style>body{font-family:'Segoe UI';max-width:600px;margin:50px auto;background:#f3f3f3;}
+.results{background:white;padding:30px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+.high-risk{border-left:5px solid #d83b01;background:#fff5f5;}
+.low-risk{border-left:5px solid #107c10;background:#f0fff4;}
+.issue{background:#fff3cd;padding:10px;margin:10px 0;border-radius:4px;border-left:4px solid #ffc107;}
+.log{background:#e9ecef;padding:15px;font-family:monospace;border-radius:4px;}
+a{color:#0078d4;text-decoration:none;}</style></head>
+<body>
+<div class="results {{ 'high-risk' if issues else 'low-risk' }}">
+<h1>🛡️ Phishing Analysis Complete</h1>
+<h2>{{ risk }}</h2>
+<h3>Detected Issues:</h3>
+{% if issues %}
+    {% for issue in issues %}
+    <div class="issue">{{ issue }}</div>
+    {% endfor %}
+{% else %}
+    <p>✅ No phishing indicators detected</p>
+{% endif %}
+<h3>Capture Log:</h3>
+<div class="log">{{ log_entry }}</div>
+<p><a href="/demo">← Test Another Login</a> | <a href="/dashboard">View Dashboard</a></p>
+</div>
+</body>
+</html>

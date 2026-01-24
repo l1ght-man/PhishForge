@@ -1,13 +1,13 @@
 from flask import Flask
 from flask import request          
 from datetime import datetime
-
+from flask import render_template
 app = Flask(__name__)
 
 @app.route('/')
 
 def home ():
-        return "<h1>Phishing Detection Lab v1.0 - Ready!</h1><p>Server running ...</p>"
+        return render_template('home.html')
 @app.route('/demo' , methods = ['GET' , 'POST'])
 def demo():
     if request.method == 'POST':
@@ -18,16 +18,11 @@ def demo():
            issues = analyse_phishing(username, password)
            risk = 'HIGH RISK' if issues else 'LOW RISK'
            log_entry = f" {timestap} | User: {username} | password: {password} | {risk} \n"
-           with open("phishing_logs.txt" , 'a') as f:
+           with open("logs/phishing_logs.txt" , 'a') as f:
                   f.write(log_entry)
                   
-           return f"<h3>🚨 PHISHING ATTEMPT DETECTED!</h3><p>Username: {username}</p>"
-    return"""<h2>🚨 FAKE LOGIN PAGE (for analysis)</h2>
-    <form method="POST">
-      Username: <input name="username" type="text"><br>
-      Password: <input name="password" type="password"><br>  
-      <button>Login Now!</button>
-    </form>"""
+           return render_template('results.html', issues=issues , risk= risk , log_entry=log_entry)
+    return render_template('demo.html')
 
 def analyse_phishing(username , password):
         issues =[]
@@ -37,7 +32,21 @@ def analyse_phishing(username , password):
             issues.append("❌ Suspicious username")
         if any(char.isdigit() for char in password) and len(password) < 3:
             issues.append("❌ Sequential/repeated chars")
-
-        return issues          
+        return issues
+@app.route('/dashboard')
+def dashboard():
+        try:
+              with open('logs/phishing_logs.txt', 'r') as f:
+                    logs = f.readlines()[-10:]
+        except:
+              logs = ['no logs yet!']
+        log_html = ''.join(f'<p>{log}</p>' for log in logs)
+        return f"""
+    <h1>🛡️ Phishing Detection Dashboard</h1>
+    <p>Recent detections:</p>
+    {log_html}
+    <p><a href="/demo">→ Test new login</a> | <a href="/">← Home</a></p>
+    """
+                  
 if __name__ == '__main__':
-        app.run(debug=True, port=8080)
+        app.run(debug=True, host='0.0.0.0' , port=8080)

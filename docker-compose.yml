@@ -1,0 +1,33 @@
+services:
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  dashboard:
+    build: .
+    command: ["python", "phishforge/dashboard/app.py"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mailhog
+    volumes:
+      - ./logs:/app/logs
+  attack:
+    build: .
+    command: ["python", "phishforge/landing/attack_surface.py"]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mailhog
+    volumes:
+      - ./logs:/app/logs
+
+  compaing:
+    build: .
+    command: ["python", "phishforge/campaigns/app.py"]
+    depends_on:
+      - mailhog
+    volumes:
+      - ./victims.csv:/app/victims.csv
