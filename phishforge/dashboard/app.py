@@ -2,7 +2,8 @@ from flask import Flask
 from flask import request          
 from datetime import datetime
 from flask import render_template
-app = Flask(__name__)
+template_folder = '/app/templates'
+app = Flask(__name__ , template_folder=template_folder)
 
 @app.route('/')
 
