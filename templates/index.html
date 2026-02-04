@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishForge • Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --accent-primary: #4f46e5;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: rgba(74, 85, 104, 0.4);
+        }
+        body {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1c263a 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 2.5rem;
+        }
+        .hero h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            font-size: 1.1rem;
+        }
+        .campaign-grid {
+            display: grid;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        .campaign-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .campaign-card:hover {
+            border-color: rgba(79, 70, 229, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 5rem;
+            opacity: 0.6;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="navbar-brand">
+                <i class="bi bi-shield-lock-fill me-2"></i> PhishForge
+            </span>
+            <div>
+                <a href="/dashboard" class="btn btn-sm btn-outline-primary me-2">
+                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                </a>
+                <a href="/create" class="btn btn-sm btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> New Campaign
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero">
+            <h1>Phishing Simulation Platform</h1>
+            <p>Create, launch, and analyze phishing campaigns to improve your organization's security awareness.</p>
+        </div>
+
+        <!-- Campaigns List -->
+        {% if campaigns %}
+            <div class="campaign-grid">
+                {% for c in campaigns %}
+                <div class="campaign-card">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h4 class="mb-1">{{ c.name }}</h4>
+                        <span class="badge bg-secondary">{{ c.victim_count }} targets</span>
+                    </div>
+                    <p class="text-secondary small mb-2">
+                        <i class="bi bi-envelope me-1"></i> {{ c.email_subject }}
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="/campaign/{{ c.id }}/stats" class="btn btn-sm btn-outline-light">
+                            <i class="bi bi-graph-up"></i> Analytics
+                        </a>
+                        <a href="/campaign/{{ c.id }}/preview" class="btn btn-sm btn-outline-light">
+                            <i class="bi bi-eye"></i> Preview
+                        </a>
+                        <form method="POST" action="/campaign/{{ c.id }}/delete" 
+                              class="d-inline" onsubmit="return confirm('Delete \"{{ c.name }}\"?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <h3>No Campaigns Yet</h3>
+                <p>Start by creating your first phishing simulation.</p>
+                <a href="/create" class="btn btn-primary mt-3">
+                    <i class="bi bi-play-circle me-1"></i> Create Campaign
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

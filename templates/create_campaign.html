@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Campaign - PhishForge</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; background: #f8f9fa; }
+        .container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem; }
+        label { display: block; margin: 1.5rem 0 0.5rem 0; font-weight: 600; color: #555; }
+        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+        textarea { height: 200px; font-family: 'Courier New', monospace; resize: vertical; }
+        .button-group { display: flex; gap: 1rem; margin-top: 2rem; }
+        button { padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; flex: 1; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-primary:hover { background: #0056b3; }
+        .flash { padding: 1rem; margin: 1rem 0; border-radius: 4px; }
+        .flash-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .flash-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎣 Create Phishing Campaign</h1>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST">
+            <label>Campaign Name</label>
+            <input type="text" name="name" placeholder="e.g. 'Q1 Bank Security Update'" required>
+            
+            <label>Email Subject</label>
+            <input type="text" name="subject" placeholder="Urgent: Account Verification Required" required>
+            
+            <label>Email Body (HTML)</label>
+            <textarea name="email_html" placeholder="&lt;h2 style='color:red'&gt;🚨 ACTION REQUIRED&lt;/h2&gt;&lt;p&gt;Click &lt;a href='{{landing_url}}'&gt;here&lt;/a&gt; to verify your account within 24 hours.&lt;/p&gt;" required></textarea>
+            
+            <label>Landing Page (HTML)</label>
+            <textarea name="landing_html" placeholder="&lt;div style='max-width:400px;margin:50px auto;padding:30px;border:1px solid #ddd;border-radius:8px;'&gt;&lt;h3&gt;Bank of Example&lt;/h3&gt;&lt;form method='POST' action='/login'&gt;&lt;input name='email' placeholder='Email' style='width:100%;padding:10px;margin:5px 0;' required&gt;&lt;br&gt;&lt;input name='password' type='password' placeholder='Password' style='width:100%;padding:10px;margin:5px 0;' required&gt;&lt;br&gt;&lt;button type='submit' style='width:100%;padding:12px;background:#007bff;color:white;border:none;border-radius:4px;font-size:16px;'&gt;Login Securely&lt;/button&gt;&lt;/form&gt;&lt;/div&gt;" required></textarea>
+            
+            <div class="button-group">
+                <button type="submit" class="btn-primary">💾 Save Campaign</button>
+                <a href="/" style="padding: 0.75rem 1.5rem; background: #6c757d; color: white; text-align: center; border-radius: 4px;">🏠 Dashboard</a>
+            </div>
+        </form>
+        
+        <p style="margin-top: 2rem; font-size: 14px; color: #666;">
+            <strong>Tip:</strong> Use <code>{{landing_url}}</code> in email body - it gets replaced with the real phishing link!
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Preview</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f4f4f4; }
+        .email-container { background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; }
+        .email-header { background: #f8f9fa; padding: 20px; border-bottom: 1px solid #eee; }
+        .email-body { padding: 30px; }
+        .landing-link { background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h3>📧 Email Preview</h3>
+        </div>
+        <div class="email-body">
+            {{ html|safe }}
+        </div>
+    </div>
+</body>
+</html>

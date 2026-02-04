@@ -1,1 +1,3 @@
 /logs/phishing_logs.txt
+.env
+*.db

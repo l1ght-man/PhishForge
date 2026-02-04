@@ -7,27 +7,30 @@ services:
 
   dashboard:
     build: .
-    command: ["python", "phishforge/dashboard/app.py"]
+    command: ["sh", "-c", "export PYTHONPATH=/app && python phishforge/dashboard/app.py"]
     ports:
       - "8080:8080"
     depends_on:
       - mailhog
     volumes:
       - ./logs:/app/logs
+      - db_data:/app/data 
   attack:
     build: .
-    command: ["python", "phishforge/landing/attack_surface.py"]
+    command: ["sh", "-c", "export PYTHONPATH=/app && python phishforge/landing/attack_surface.py"]
     ports:
       - "3000:3000"
     depends_on:
       - mailhog
     volumes:
       - ./logs:/app/logs
-
-  compaing:
+      - db_data:/app/data  
+  compaign:
     build: .
-    command: ["python", "phishforge/campaigns/app.py"]
+    command: ["sh", "-c", "export PYTHONPATH=/app && python phishforge/campaigns/app.py"]
     depends_on:
       - mailhog
     volumes:
       - ./victims.csv:/app/victims.csv
+volumes:
+  db_data: {} 
