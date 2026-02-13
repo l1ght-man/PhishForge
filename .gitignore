@@ -1,3 +1,33 @@
-/logs/phishing_logs.txt
-.env
+# Logs
+logs/
+*.log
+
+# Database
 *.db
+*.db-journal
+phishforge.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+

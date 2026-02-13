@@ -25,7 +25,7 @@ services:
     volumes:
       - ./logs:/app/logs
       - db_data:/app/data  
-  compaign:
+  campaign:
     build: .
     command: ["sh", "-c", "export PYTHONPATH=/app && python phishforge/campaigns/app.py"]
     depends_on:

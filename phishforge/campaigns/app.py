@@ -1,12 +1,14 @@
-import smtplib 
+import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import csv
-def send_phishing_email (to_email , victim_name) :
+
+
+def send_phishing_email(to_email, victim_name):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = '🚨 URGENT: Microsoft Account Verification Required'
     msg['From'] = 'security@yourcompany.com'
-    msg['to'] = to_email
+    msg['To'] = to_email
     html = f"""
     <html>
     <body style='font-family:Segoe UI;max-width:600px;margin:0 auto;padding:20px;'>
@@ -21,22 +23,24 @@ def send_phishing_email (to_email , victim_name) :
     </body>
     </html>
     """
-    html_part = MIMEText(html , 'html')
+    html_part = MIMEText(html, 'html')
     msg.attach(html_part)
     server = smtplib.SMTP('mailhog', 1025)
     server.send_message(msg)
-    server.quit()                                       
+    server.quit()
     print(f"✅ Phishing email sent to {to_email}")
 
-def compaign_attack(csv_file = 'victims.csv'):
+
+def campaign_attack(csv_file='victims.csv'):
     sent = 0
-    with open(csv_file, 'r') as f :
+    with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
-        for row in reader :
-            send_phishing_email(row['email'] , row['name'])
+        for row in reader:
+            send_phishing_email(row['email'], row['name'])
             sent += 1
-            print(f"Attacked: {row['name']} ({sent}/{len(list(csv.reader(open(csv_file))))-1})")
+            print(f"Attacked: {row['name']} ({sent} emails sent)")
     print(f"✅ Campaign complete: {sent} targets hit")
 
-if __name__ == '__main__' :
-    compaign_attack()
+
+if __name__ == '__main__':
+    campaign_attack()

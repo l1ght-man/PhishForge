@@ -1,130 +1,199 @@
-# 🛡️ PhishForge
+# PhishForge
 
-> **A self-hosted phishing simulation lab for security awareness training**
+**A self-hosted phishing simulation platform for security awareness training and red team exercises.**
 
-PhishForge lets you safely simulate phishing attacks in a controlled environment:
-- Send test emails via **MailHog** (no real email sent)
-- Capture credentials on a fake login page
-- Analyze results in a dashboard with department-level insights
-- Export reports as **PDF/CSV**
+PhishForge enables security teams to conduct controlled phishing simulations in isolated environments. Test emails are captured by MailHog (no external delivery), credentials are logged for analysis, and comprehensive reports track organizational vulnerability by department.
 
-> ⚠️ **Ethical Use Only**: Use **exclusively** on systems/mailboxes you own or have explicit permission to test. Unauthorized use is illegal.
+**Legal Notice**: This tool is designed exclusively for authorized security testing and employee training. Unauthorized phishing simulations are illegal. Always obtain explicit written permission before deployment.
 
 ---
 
-## ✨ Features
+## Features
 
-- **Campaign Management**: Create phishing campaigns with custom HTML emails & landing pages  
-- **Victim Tracking**: Import targets via CSV, prevent duplicates, manage by department  
-- **Real-Time Analytics**: View conversion rates, department risk, captured credentials  
-- **Exportable Reports**: Generate PDF summaries or raw CSV data  
-- **100% Local**: Runs in Docker with MailHog — no external dependencies  
+- **Campaign Management**: Create phishing campaigns with custom HTML email templates and landing pages
+- **Victim Tracking**: CSV import with automatic duplicate detection, department-based segmentation
+- **Analytics Dashboard**: Real-time conversion tracking, department risk scoring, credential capture logs
+- **Report Generation**: Export campaign data as PDF reports or raw CSV files
+- **Isolated Testing**: Fully containerized with MailHog SMTP server—no external network dependencies
 
 ---
 
-## 📦 Tech Stack
+## Tech Stack
 
 | Component       | Technology      |
 |-----------------|-----------------|
-| Backend         | Python 3, Flask |
+| Backend         | Python 3.12, Flask |
 | Database        | SQLite          |
 | Email Testing   | MailHog         |
 | Containerization| Docker Compose  |
-| Frontend        | Bootstrap 5     |
+| Frontend        | Bootstrap 5 (AI-assisted) |
+
+**Development Notes**: The backend logic, database architecture, and campaign orchestration were developed manually. Frontend templates and UI components were generated with AI assistance (Claude/GPT) and integrated into the Flask application.
 
 ---
 
-## 🗂️ Project Structure
+## Architecture
 
 ```text
 phishforge/
-├── campaigns/          # Email campaign sender
-├── dashboard/          # Analytics dashboard (Flask app)
-├── landing/            # Fake login page (Flask app)
-├── models/             # Database logic
-├── templates/          # HTML templates (Jinja2)
-├── logs/               # Runtime logs (phishing_logs.txt)
-├── phishforge.db       # SQLite database
-├── victims.csv         # Target list template
+├── campaigns/          # Email delivery service
+├── dashboard/          # Web interface (Flask)
+├── landing/            # Phishing page service (Flask)
+├── models/             # SQLite ORM & queries
+├── templates/          # Jinja2 HTML templates
+├── logs/               # Credential capture logs
 ├── Dockerfile
 ├── docker-compose.yml
-├── requirements.txt
-└── README.md
+└── requirements.txt
 ```
+
+**Service Architecture**:
+- **Dashboard** (port 8080): Campaign CRUD, victim management, analytics
+- **Landing** (port 3000): Serves campaign-specific phishing pages at `/c/<campaign_id>`
+- **MailHog** (ports 1025/8025): SMTP server + web UI for email inspection
+- **SQLite**: Shared database via Docker volume
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
+- Docker Engine 20.10+
+- Docker Compose 2.0+
 
-### 1. Clone & Configure
+### Installation
+
 ```bash
 git clone https://github.com/l1ght-man/phishforge.git
 cd phishforge
 
-# Edit targets (one email per line)
-nano victims.csv
-```
+# (Optional) Configure Flask secret key for production
+export SECRET_KEY="your-secure-random-key-here"
 
-### 2. Launch Services
-```bash
+# Start all services
 docker compose up --build
 ```
 
-### 3. Access Interfaces
-| Service          | URL                     |
-|------------------|-------------------------|
-| Dashboard        | http://localhost:8080   |
-| Phishing Page    | http://localhost:3000   |
-| MailHog (Emails) | http://localhost:8025   |
+### Access Points
 
-### 4. Send a Campaign
+| Service          | URL                     | Purpose |
+|------------------|-------------------------|---------|
+| Dashboard        | http://localhost:8080   | Campaign management & analytics |
+| Landing Service  | http://localhost:3000   | Phishing pages at `/c/<campaign_id>` |
+| MailHog          | http://localhost:8025   | Email inspection UI |
+
+### Workflow
+
+1. **Create Campaign**: Dashboard → Create Campaign → Define email/landing HTML
+2. **Add Victims**: Upload CSV or manually add targets with department tags
+3. **Send Campaign**: Click "Send Emails" to deliver to MailHog
+4. **Monitor**: Check MailHog for emails, track clicks/submissions in Dashboard
+5. **Export**: Generate PDF reports or download CSV data
+
+**Note**: Captured credentials are logged to `logs/phishing_logs.txt` and stored in SQLite.
+
+---
+
+## Configuration
+
+### Environment Variables
+
+| Variable       | Default                          | Description |
+|----------------|----------------------------------|-------------|
+| `SECRET_KEY`   | `phishforge-dev-key-change-...`  | Flask session secret (change in production) |
+| `SMTP_HOST`    | `mailhog`                        | SMTP server hostname |
+| `SMTP_PORT`    | `1025`                           | SMTP server port |
+
+### Database
+
+SQLite database located at `/app/data/phishforge.db` inside containers. Persisted via Docker volume `db_data`.
+
+**Tables**:
+- `campaigns`: Campaign metadata (name, email/landing HTML)
+- `victims`: Target list with department tags
+- `hits`: Captured credentials (email, password, IP, timestamp)
+- `clicks`: Landing page visits (victim tracking)
+
+---
+
+## Development
+
+### Local Setup (Without Docker)
+
 ```bash
-# Run once to send emails to victims.csv
-docker compose run --rm campaign
+python -m venv venv
+source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+pip install -r requirements.txt
+
+export PYTHONPATH=.
+python phishforge/dashboard/app.py  # Port 8080
+python phishforge/landing/attack_surface.py  # Port 3000
 ```
 
-> 💡 Credentials are saved to `logs/phishing_logs.txt` and visible in the dashboard.
+### Adding Dependencies
+
+```bash
+# Update requirements.txt, then rebuild
+docker compose build --no-cache
+docker compose up
+```
+
+### Database Migrations
+
+No migration tool configured. Schema changes require manual `ALTER TABLE` or recreating containers with `-v` flag:
+
+```bash
+docker compose down -v  # Destroys database
+docker compose up --build
+```
 
 ---
 
-## 🧪 Development Notes
+## Security Considerations
 
-- **Database**: All data stored in `phishforge.db` (SQLite)  
-- **Logs**: Shared volume at `./logs/`  
-- **Dependencies**: Update `requirements.txt` → rebuild with `docker compose build`  
-- **Victim Management**:  
-  - Add/edit/delete victims via dashboard  
-  - Automatic duplicate prevention  
-  - Department-based analytics  
+**Deployment Warnings**:
+- Default Flask secret key is insecure—set `SECRET_KEY` env var
+- No authentication on dashboard—do not expose publicly
+- SQLite is not suitable for high-concurrency production workloads
+- Logs contain plaintext passwords—secure file permissions required
 
----
-
-## 📤 Export Options
-
-From any campaign's **Stats** page (`/campaign/X/stats`):
-- **PDF Report**: Professional summary with charts  
-- **Victims CSV**: Raw target list  
-- **Credentials CSV**: Captured logins  
+**Intended Use**: Internal lab environments, isolated networks, or localhost testing only.
 
 ---
 
-## ⚖️ Legal & Ethical Use
+## Legal & Ethics
 
-**PhishForge is for education and security awareness ONLY.**  
-- ✅ **Do**: Test with explicit consent, focus on training  
-- ❌ **Don't**: Target unauthorized systems, use real credentials, or shame users  
+This software is provided for **authorized security testing and educational purposes only**. 
 
-The authors assume **no liability** for misuse. Check your local laws before use.
+**Prohibited Uses**:
+- Unauthorized access to computer systems (violations of CFAA, GDPR, etc.)
+- Targeting individuals without explicit written consent
+- Using captured credentials for unauthorized access
+- Deploying without organizational approval
+
+**User Responsibilities**:
+- Obtain legal authorization before deployment
+- Comply with local laws and regulations (GDPR, CCPA, etc.)
+- Securely destroy captured data after testing
+- Never use in production environments without proper controls
+
+The authors and contributors assume no liability for misuse. You are solely responsible for compliance with applicable laws.
 
 ---
 
-## 📜 License
+## License
 
-MIT License – see [LICENSE](LICENSE) for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-> 🔐 **Remember**: Security awareness builds resilience. Use this tool to educate, not exploit.
+## Acknowledgments
+
+- Backend and architecture: Manual development
+- Frontend templates: AI-assisted generation 
+- Email testing: [MailHog](https://github.com/mailhog/MailHog) project
+- PDF generation: [WeasyPrint](https://weasyprint.org/)
+
+---
+
+**Disclaimer**: PhishForge is a penetration testing tool. Misuse can result in criminal prosecution. Use responsibly.
