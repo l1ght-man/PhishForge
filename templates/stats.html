@@ -65,12 +65,17 @@
     </style>
 </head>
 <body>
+    {% include 'dark_mode.html' %}
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary" href="/">
                 <i class="bi bi-shield-lock"></i> PhishForge
             </a>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+                    <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                </button>
                 <span class="badge bg-primary me-3 py-2 px-3">
                     {{ total_victims }} victims • {{ total_conversions }} conversions
                 </span>

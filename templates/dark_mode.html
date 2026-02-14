@@ -1,0 +1,144 @@
+<!-- Dark Mode Toggle & Styles - Include this in all templates -->
+<style>
+    /* Light mode (default) */
+    :root {
+        --bg-primary: #f0f4f8;
+        --bg-secondary: #ffffff;
+        --bg-card: #ffffff;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+        --shadow: rgba(0,0,0,0.08);
+    }
+    
+    /* Dark mode */
+    [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-card: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --shadow: rgba(0,0,0,0.3);
+    }
+    
+    body {
+        background: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+        transition: background 0.3s, color 0.3s;
+    }
+    
+    .card, .stat-card, .bg-white, .navbar, .table, 
+    .campaign-card, .bg-light, .list-group-item,
+    .modal-content, .dropdown-menu {
+        background: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .text-muted, .stat-label, .text-secondary, .text-dark {
+        color: var(--text-secondary) !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6, .fw-bold, .display-5 {
+        color: var(--text-primary) !important;
+    }
+    
+    .table {
+        color: var(--text-primary) !important;
+        background: var(--bg-card) !important;
+    }
+    
+    .table thead th {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .table tbody td {
+        background: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .table tbody tr {
+        background: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+    }
+    
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(100, 116, 139, 0.1) !important;
+    }
+    
+    .campaign-row, .table > :not(caption) > * > * {
+        background: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+    }
+    
+    .campaign-row:hover {
+        background-color: rgba(100, 116, 139, 0.15) !important;
+    }
+    
+    input, textarea, select, .form-control {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .btn-outline-secondary, .btn-outline-light {
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    /* Dark mode toggle button */
+    .dark-mode-toggle {
+        background: none;
+        border: 2px solid var(--border-color);
+        color: var(--text-primary);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .dark-mode-toggle:hover {
+        transform: scale(1.1);
+        background: var(--border-color);
+    }
+</style>
+
+<!-- Dark Mode Script -->
+<script>
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Wait for DOM to load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateIcon(savedTheme);
+        
+        const toggleBtn = document.getElementById('darkModeToggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+            });
+        }
+    });
+    
+    function updateIcon(theme) {
+        const icon = document.getElementById('darkModeIcon');
+        if (icon) {
+            icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+        }
+    }
+</script>

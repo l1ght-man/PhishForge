@@ -80,13 +80,18 @@
     </style>
 </head>
 <body>
+    {% include 'dark_mode.html' %}
+    
     <!-- Navigation -->
     <nav class="navbar navbar-dark">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand">
                 <i class="bi bi-shield-lock-fill me-2"></i> PhishForge
             </span>
-            <div>
+            <div class="d-flex gap-2">
+                <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+                    <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                </button>
                 <a href="/dashboard" class="btn btn-sm btn-outline-primary me-2">
                     <i class="bi bi-speedometer2 me-1"></i> Dashboard
                 </a>
